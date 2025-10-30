@@ -1,15 +1,8 @@
 {
-  "name": "never-hide-ai-pro",
+  "name": "never-hide-ai-pro-server",
   "version": "1.0.0",
-  "description": "A secure AI web application",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "Backend for NEVER HIDE AI PRO",
   "dependencies": {
-    "@google/generative-ai": "^0.1.3"
+    "@google/generative-ai": "^0.2.1"
   }
 }
