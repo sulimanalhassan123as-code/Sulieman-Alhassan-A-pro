@@ -1,168 +1,78 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #fff;
-    background-color: #111;
-}
+// Updated script.js with debugging logs
 
-.background-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(45deg, #ff007b, #7b00ff, #007bff, #00ff7b, #fffa00, #ff7b00);
-    background-size: 400% 400%;
-    animation: gradient-animation 20s ease infinite;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Page loaded. Script is running."); // Debug 1: Check if script starts
 
-@keyframes gradient-animation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const thinkingIndicator = document.getElementById('thinking-indicator');
 
-.container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* This will be controlled by JavaScript later */
-    height: var(--app-height, 100vh); /* ADDED: Use JS variable for height */
-    backdrop-filter: blur(8px);
-    background-color: rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-}
+    const displayMessage = (message, sender) => {
+        // ... (This function is likely fine, no changes needed)
+    };
 
-header {
-    text-align: center;
-    padding: 20px;
-    font-size: 1.8em;
-    font-weight: 700;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
-}
+    const getAiResponse = async (prompt) => {
+        console.log("getAiResponse called with prompt:", prompt); // Debug 2: Check if this function is called
 
-main {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    position: relative; /* ADDED: Needed for z-index stacking */
-}
+        thinkingIndicator.style.display = 'block';
+        userInput.disabled = true;
+        sendBtn.disabled = true;
 
-.chat-container {
-    width: 100%;
-    max-width: 800px;
-    height: 80vh;
-    background: rgba(20, 20, 30, 0.7);
-    border-radius: 15px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    display: flex;
-    flex-direction: column;
-    position: relative; /* ADDED: Ensure this container is a positioned element */
-    z-index: 2; /* ADDED: Lift the chat container above the background */
-}
+        try {
+            console.log("Attempting to fetch from /api/gemini..."); // Debug 3: Check before the network request
 
-.chat-box {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-}
+            const response = await fetch('/api/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: prompt }),
+            });
 
-.message {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: flex-start;
-    max-width: 90%;
-}
+            console.log("Fetch response received:", response.status, response.statusText); // Debug 4: See the HTTP status
 
-.user-message {
-    margin-left: auto;
-    flex-direction: row-reverse;
-}
+            if (!response.ok) {
+                // This will create a detailed error message if the response is not successful
+                throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+            }
 
-.user-message .message-bubble {
-    background: #007bff;
-    border-radius: 15px 15px 0 15px;
-    color: #fff;
-}
+            const data = await response.json();
+            console.log("AI data received:", data); // Debug 5: See the data from the server
+            displayMessage(data.reply, 'ai');
 
-.ai-message .message-bubble {
-    background: #3a3a3c;
-    border-radius: 15px 15px 15px 0;
-}
-
-.message-bubble {
-    padding: 12px 18px;
-    word-wrap: break-word;
-}
-
-.ai-avatar {
-    font-size: 1.5em;
-    margin-right: 12px;
-    padding-top: 5px;
-}
-
-.thinking-indicator {
-    padding: 10px 20px;
-    text-align: center;
-    font-style: italic;
-    color: #ccc;
-    animation: pulse 1.5s infinite ease-in-out;
-}
-
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
-}
-
-.user-input-container {
-    display: flex;
-    padding: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-#user-input {
-    flex-grow: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    font-size: 1em;
-}
-
-#user-input::placeholder {
-    color: #ddd;
-}
-
-#send-btn {
-    padding: 12px 25px;
-    margin-left: 10px;
-    border: none;
-    border-radius: 20px;
-    background: #007bff;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background 0.3s ease;
-}
-
-#send-btn:hover {
-    background: #0056b3;
-}
-
-footer {
-    text-align: center;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.8);
-    font-size: 0.9em;
-}
-
-footer a {
-    color: #00aaff;
-    text-decoration: none;
+        } catch (error) {
+            // THIS IS THE MOST IMPORTANT PART FOR DEBUGGING
+            console.error("!!! FETCH ERROR !!!:", error); // Debug 6: THIS WILL CATCH THE SILENT ERROR
+            displayMessage(`An error occurred. Please check the developer console (F12) for details. Error: ${error.message}`, 'ai');
+        } finally {
+            thinkingIndicator.style.display = 'none';
+            userInput.disabled = false;
+            sendBtn.disabled = false;
+            userInput.focus();
+            
+            setTimeout(() => {
+                displayMessage("SULIEMAN say's I should ask you do you understand.", 'ai');
+            }, 1500);
         }
+    };
+
+    const handleUserInput = () => {
+        console.log("Send button clicked or Enter pressed."); // Debug 7: Check if the button click works
+        const userMessage = userInput.value.trim();
+        if (userMessage) {
+            displayMessage(userMessage, 'user');
+            userInput.value = '';
+            getAiResponse(userMessage);
+        }
+    };
+
+    sendBtn.addEventListener('click', handleUserInput);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleUserInput();
+        }
+    });
+
+    setTimeout(() => {
+        displayMessage("Hello! I am NEVER HIDE AI PRO. How can I assist you today?", 'ai');
+    }, 1000);
+});
