@@ -2,9 +2,8 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    /* overflow: hidden; <-- This line was REMOVED to fix the keyboard issue */
     color: #fff;
-    background-color: #111; /* Fallback background */
+    background-color: #111;
 }
 
 .background-animation {
@@ -29,9 +28,10 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    height: var(--app-height, 100vh); /* Use JS variable for height */
     backdrop-filter: blur(8px);
     background-color: rgba(0, 0, 0, 0.5);
-    overflow: hidden; /* <-- This line was ADDED here to fix the keyboard issue */
+    overflow: hidden;
 }
 
 header {
@@ -42,18 +42,20 @@ header {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
 }
 
+/* --- KEY CHANGE AREA START --- */
 main {
-    flex-grow: 1;
+    flex-grow: 1; /* Allows the main area to grow and fill space */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
+    overflow: hidden; /* Prevents children from overflowing the main area */
 }
 
 .chat-container {
     width: 100%;
     max-width: 800px;
-    height: 80vh;
+    height: 100%; /* CHANGED: Was 80vh, now it fills its parent (main) */
     background: rgba(20, 20, 30, 0.7);
     border-radius: 15px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
@@ -61,6 +63,8 @@ main {
     display: flex;
     flex-direction: column;
 }
+/* --- KEY CHANGE AREA END --- */
+
 
 .chat-box {
     flex-grow: 1;
@@ -120,6 +124,8 @@ main {
     display: flex;
     padding: 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.18);
+    position: relative; /* ADDED: To enable z-index */
+    z-index: 99; /* ADDED: High z-index to ensure it's on top */
 }
 
 #user-input {
@@ -162,4 +168,103 @@ footer {
 footer a {
     color: #00aaff;
     text-decoration: none;
-}
+}```
+
+---
+
+### **Step 3: Replace Your `script.js` File**
+
+This is the complete, correct version that includes both the mobile height fix and **restores the beautiful welcome message**.
+
+```javascript
+document.addEventListener('DOMContentLoaded', () => {
+    // --- START: CODE TO FIX MOBILE KEYBOARD ---
+    const setAppHeight = () => {
+        const doc = document.documentElement;
+        // This calculates the real inner height of the window and sets it as a CSS variable
+        doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+    };
+    window.addEventListener('resize', setAppHeight);
+    setAppHeight(); // Set the height initially
+    // --- END: CODE TO FIX MOBILE KEYBOARD ---
+
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const thinkingIndicator = document.getElementById('thinking-indicator');
+
+    const displayMessage = (message, sender) => {
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('message', `${sender}-message`);
+
+        if (sender === 'ai') {
+            const avatar = document.createElement('span');
+            avatar.classList.add('ai-avatar');
+            avatar.textContent = '🌟';
+            messageContainer.appendChild(avatar);
+        }
+
+        const messageBubble = document.createElement('div');
+        messageBubble.classList.add('message-bubble');
+        messageBubble.textContent = message;
+        messageContainer.appendChild(messageBubble);
+
+        chatBox.appendChild(messageContainer);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    };
+
+    const getAiResponse = async (prompt) => {
+        thinkingIndicator.style.display = 'block';
+        userInput.disabled = true;
+        sendBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: prompt }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            displayMessage(data.reply, 'ai');
+
+        } catch (error) {
+            console.error('Fetch Error:', error);
+            displayMessage('Sorry, an error occurred. Please check the connection and try again.', 'ai');
+        } finally {
+            thinkingIndicator.style.display = 'none';
+            userInput.disabled = false;
+            sendBtn.disabled = false;
+            userInput.focus();
+            
+            setTimeout(() => {
+                displayMessage("SULIEMAN say's I should ask you do you understand.", 'ai');
+            }, 1500);
+        }
+    };
+
+    const handleUserInput = () => {
+        const userMessage = userInput.value.trim();
+        if (userMessage) {
+            displayMessage(userMessage, 'user');
+            userInput.value = '';
+            getAiResponse(userMessage);
+        }
+    };
+
+    sendBtn.addEventListener('click', handleUserInput);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleUserInput();
+        }
+    });
+
+    // --- BEAUTIFUL WELCOME MESSAGE IS RESTORED HERE ---
+    setTimeout(() => {
+        displayMessage("Hello! I am NEVER HIDE AI PRO. How can I assist you today?", 'ai');
+    }, 1000);
+});
