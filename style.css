@@ -2,7 +2,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    /* overflow: hidden; <-- This line was REMOVED to fix the keyboard issue */
     color: #fff;
     background-color: #111; /* Fallback background */
 }
@@ -31,6 +31,7 @@ body {
     height: 100vh;
     backdrop-filter: blur(8px);
     background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden; /* <-- This line was ADDED here to fix the keyboard issue */
 }
 
 header {
@@ -70,7 +71,7 @@ main {
 .message {
     margin-bottom: 15px;
     display: flex;
-    align-items: flex-start; /* Aligns avatar with the top of the bubble */
+    align-items: flex-start;
     max-width: 90%;
 }
 
