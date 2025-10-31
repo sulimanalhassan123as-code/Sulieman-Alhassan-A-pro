@@ -1,4 +1,4 @@
-// Updated script.js with debugging logs
+
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Page loaded. Script is running."); // Debug 1: Check if script starts
