@@ -1,62 +1,96 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Page loaded. Script is running."); // Debug 1: Check if script starts
+    // --- START: CRITICAL FIX FOR MOBILE KEYBOARD ---
+    // This function calculates the actual viewport height, avoiding issues when the keyboard appears.
+    const setAppHeight = () => {
+        const doc = document.documentElement;
+        doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+    };
+    window.addEventListener('resize', setAppHeight);
+    setAppHeight(); // Set the height on initial load
+    // --- END: CRITICAL FIX FOR MOBILE KEYBOARD ---
 
+    console.log("NEVER HIDE AI PRO: Script loaded successfully.");
+
+    // Get all the necessary elements from the HTML
     const chatBox = document.getElementById('chat-box');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
     const thinkingIndicator = document.getElementById('thinking-indicator');
 
+    // Function to display any message (from user or AI) in the chat box
     const displayMessage = (message, sender) => {
-        // ... (This function is likely fine, no changes needed)
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('message', `${sender}-message`);
+
+        if (sender === 'ai') {
+            const avatar = document.createElement('span');
+            avatar.classList.add('ai-avatar');
+            avatar.textContent = '🌟';
+            messageContainer.appendChild(avatar);
+        }
+
+        const messageBubble = document.createElement('div');
+        messageBubble.classList.add('message-bubble');
+        messageBubble.textContent = message;
+        messageContainer.appendChild(messageBubble);
+
+        chatBox.appendChild(messageContainer);
+        chatBox.scrollTop = chatBox.scrollHeight; // Automatically scroll to the latest message
     };
 
+    // Function to call your secure backend and get the AI's response
     const getAiResponse = async (prompt) => {
-        console.log("getAiResponse called with prompt:", prompt); // Debug 2: Check if this function is called
-
+        console.log(`Sending prompt to backend: "${prompt}"`);
         thinkingIndicator.style.display = 'block';
         userInput.disabled = true;
         sendBtn.disabled = true;
 
         try {
-            console.log("Attempting to fetch from /api/gemini..."); // Debug 3: Check before the network request
-
+            // This sends the user's message to your secure /api/gemini function on Vercel
             const response = await fetch('/api/gemini', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ prompt: prompt }),
             });
 
-            console.log("Fetch response received:", response.status, response.statusText); // Debug 4: See the HTTP status
+            console.log(`Received response from backend with status: ${response.status}`);
 
+            // If the server response is not "OK" (e.g., 404, 500), this will catch the error
             if (!response.ok) {
-                // This will create a detailed error message if the response is not successful
-                throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+                throw new Error(`Server error: The backend responded with status ${response.status}`);
             }
 
             const data = await response.json();
-            console.log("AI data received:", data); // Debug 5: See the data from the server
+
+            // Check if the server sent back an error message inside a successful request
+            if (data.error) {
+                throw new Error(`Backend error: ${data.error.message}`);
+            }
+
+            console.log("AI response data:", data);
             displayMessage(data.reply, 'ai');
 
         } catch (error) {
-            // THIS IS THE MOST IMPORTANT PART FOR DEBUGGING
-            console.error("!!! FETCH ERROR !!!:", error); // Debug 6: THIS WILL CATCH THE SILENT ERROR
-            displayMessage(`An error occurred. Please check the developer console (F12) for details. Error: ${error.message}`, 'ai');
+            // --- THIS IS THE MOST IMPORTANT PART FOR FINDING ERRORS ---
+            console.error("!!! An Error Occurred !!!", error);
+            // Display a user-friendly error message in the chat
+            displayMessage(`Sorry, something went wrong. Please check the developer console (F12) for more details. Error: ${error.message}`, 'ai');
         } finally {
+            // This code runs whether there was an error or not
             thinkingIndicator.style.display = 'none';
             userInput.disabled = false;
             sendBtn.disabled = false;
-            userInput.focus();
+            userInput.focus(); // Put the cursor back in the input box
             
+            // The follow-up question from SULIEMAN
             setTimeout(() => {
                 displayMessage("SULIEMAN say's I should ask you do you understand.", 'ai');
             }, 1500);
         }
     };
 
+    // Function that runs when the user clicks Send or presses Enter
     const handleUserInput = () => {
-        console.log("Send button clicked or Enter pressed."); // Debug 7: Check if the button click works
         const userMessage = userInput.value.trim();
         if (userMessage) {
             displayMessage(userMessage, 'user');
@@ -65,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Set up the event listeners for the button and the input box
     sendBtn.addEventListener('click', handleUserInput);
     userInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -72,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- RESTORED BEAUTIFUL WELCOME MESSAGE ---
     setTimeout(() => {
         displayMessage("Hello! I am NEVER HIDE AI PRO. How can I assist you today?", 'ai');
     }, 1000);
