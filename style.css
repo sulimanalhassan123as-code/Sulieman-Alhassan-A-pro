@@ -1,78 +1,51 @@
-/* ====== CHAT CONTAINER ====== */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: var(--app-height, 100vh);
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+/* MAIN SECTION HOLDS THE CHAT CONTAINER */
+main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  overflow: hidden;
+}
+
+/* CHAT CONTAINER — RESPONSIVE & PERFECTLY SIZED */
 .chat-container {
   width: 95%;
-  max-width: 500px;
-  margin: 20px auto;
-  background: #ffffff;
+  max-width: 800px;
+  height: 85vh; /* good size without filling screen */
+  background: rgba(20, 20, 30, 0.7);
   border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-/* ====== CHAT MESSAGES AREA ====== */
-.chat-messages {
-  flex: 1;
-  padding: 15px;
-  height: 65vh; /* Perfect height (not full screen) */
+/* CHAT BOX FIXED HEIGHT + SMOOTH SCROLL */
+.chat-box {
+  flex-grow: 1;
+  padding: 20px;
   overflow-y: auto;
   scroll-behavior: smooth;
+  max-height: calc(85vh - 120px); /* adjusts based on footer and input */
 }
 
-/* ====== SINGLE MESSAGE ====== */
-.message {
-  margin: 10px 0;
-  line-height: 1.4;
-  font-size: 15px;
-  word-wrap: break-word;
+/* SMOOTH SCROLL ON MOBILE TOO */
+.chat-box::-webkit-scrollbar {
+  width: 6px;
 }
-
-.user-message {
-  background: #0078ff;
-  color: #fff;
-  padding: 10px 14px;
-  border-radius: 12px 12px 0 12px;
-  align-self: flex-end;
-  max-width: 85%;
+.chat-box::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
 }
-
-.ai-message {
-  background: #f1f1f1;
-  color: #333;
-  padding: 10px 14px;
-  border-radius: 12px 12px 12px 0;
-  align-self: flex-start;
-  max-width: 85%;
-}
-
-/* ====== INPUT AREA ====== */
-.input-container {
-  display: flex;
-  border-top: 1px solid #ddd;
-  padding: 10px;
-  background: #fafafa;
-}
-
-input {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  outline: none;
-  background: #f5f5f5;
-}
-
-button {
-  background: #0078ff;
-  color: #fff;
-  border: none;
-  padding: 10px 14px;
-  margin-left: 8px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #005fcc;
-    }
