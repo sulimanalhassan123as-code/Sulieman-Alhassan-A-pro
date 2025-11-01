@@ -23,7 +23,7 @@ async function handler(req, res) {
 
     // 4. --- THIS IS THE ONLY CHANGE ---
     //    Specify the Gemini 2.5 Pro model
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
 
     // 5. Generate the content
     const result = await model.generateContent(prompt);
