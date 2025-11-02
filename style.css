@@ -42,15 +42,15 @@ header {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
 }
 
-/* Main content area */
-main {
-    flex-grow: 1; /* Key change: This makes 'main' take all available vertical space */
+/* Main app container - Increased dark overlay */
+.container {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 10px;
-    overflow: hidden; /* Prevents 'main' from scrolling, forcing scroll to chat-box */
-}
+    flex-direction: column;
+    height: var(--app-height, 100vh);
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.75); /* INCREASED opacity from 0.5 to 0.75 */
+    overflow: hidden;
+    }
 
 .chat-container {
     width: 100%;
