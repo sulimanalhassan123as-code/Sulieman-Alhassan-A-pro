@@ -9,11 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
-  <!-- 🌐 PWA Manifest + Theme Color -->
+  <!-- 🌐 PWA Setup -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#007bff">
-
-  <!-- App Icons for Android/iOS -->
   <link rel="icon" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-512.png">
 </head>
@@ -28,22 +26,14 @@
 
     <main>
       <div class="chat-container">
-        <div id="chat-box" class="chat-box">
-          <!-- Chat messages will appear here -->
-        </div>
+        <div id="chat-box" class="chat-box"></div>
 
         <div id="thinking-indicator" class="thinking-indicator" style="display: none;">
           NEVER HIDE IS THINKING OF YOUR REQUEST...
         </div>
 
         <div class="user-input-container">
-          <input
-            type="text"
-            id="user-input"
-            placeholder="Ask NEVER HIDE AI PRO anything..."
-            autocomplete="off"
-            autofocus
-          />
+          <input type="text" id="user-input" placeholder="Ask NEVER HIDE AI PRO anything..." autocomplete="off" autofocus>
           <button id="send-btn">Send</button>
         </div>
       </div>
@@ -55,20 +45,65 @@
           WhatsApp (+233 59 993 1348)
         </a>
       </p>
+
+      <!-- Install App Button -->
+      <button id="install-btn" style="
+        display:none;
+        margin-top:10px;
+        padding:10px 20px;
+        background:#007bff;
+        color:white;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        font-weight:bold;">
+        📱 Install NEVER HIDE AI PRO
+      </button>
     </footer>
   </div>
 
   <script src="script.js"></script>
 
-  <!-- 🧠 PWA Service Worker Registration -->
+  <!-- 🧠 Service Worker Registration + Install Prompt -->
   <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById('install-btn');
+
+    // Register service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
-          .then(() => console.log('✅ Service Worker registered successfully!'))
+          .then(() => console.log('✅ Service Worker registered'))
           .catch(err => console.error('❌ Service Worker registration failed:', err));
       });
     }
+
+    // Listen for install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block'; // Show button
+    });
+
+    // When user clicks Install button
+    installBtn.addEventListener('click', async () => {
+      installBtn.style.display = 'none';
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response: ${outcome}`);
+        deferredPrompt = null;
+      }
+    });
+
+    // Optional: Show prompt automatically after 3 seconds
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+        }
+      }, 3000);
+    });
   </script>
 </body>
-    </html>
+</html>
