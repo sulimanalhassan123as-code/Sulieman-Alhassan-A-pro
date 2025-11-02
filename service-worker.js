@@ -7,9 +7,12 @@ self.addEventListener('install', (event) => {
         './style.css',
         './script.js',
         './manifest.json',
+        './icon-192.png',
+        './icon-512.png'
       ]);
     })
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('fetch', (event) => {
