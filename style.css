@@ -95,13 +95,12 @@ main {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Message bubbles */
-.message {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: flex-start;
-    max-width: 90%;
-    line-height: 1.5;
+.message-bubble {
+    padding: 12px 18px;
+    word-wrap: break-word;
+    font-size: 1.1em; /* Changed from 1em to make text bigger */
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 .user-message {
@@ -166,8 +165,8 @@ main {
     border: none;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.2);
-    color: #fff; /* CONTRAST FIX: Ensure typed input text is white */
-    font-size: 1em;
+    color: #fff; /* Ensure typed input text is white */
+    font-size: 1.1em; /* Changed from 1em to match message bubbles */
 }
 
 #user-input::placeholder {
