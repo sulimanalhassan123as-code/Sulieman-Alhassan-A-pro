@@ -2,7 +2,8 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    color: #fff;
+    /* New: Default color set to very dark gray/black for contrast on bright backgrounds */
+    color: #222; 
     background-color: #111;
 }
 
@@ -23,73 +24,181 @@ body {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-    /* Main app container */
+}
+
+/* Main app container - Layout Fix + Contrast Boost */
 .container {
     display: flex;
     flex-direction: column;
-    height: var(--app-height, 100vh); /* Ensures it fills the full viewport height */
+    height: var(--app-height, 100vh); /* Fixed height for viewport */
     backdrop-filter: blur(8px);
-    background-color: rgba(0, 0, 0, 0.5);
-    overflow: hidden; /* Keep this to contain the scrolling to the chat-box */
+    /* Increased dark overlay for better contrast */
+    background-color: rgba(0, 0, 0, 0.75); 
+    overflow: hidden;
 }
 
-/* Optional: Slight header adjustment for better mobile chat visibility */
+/* Updated Header for consistency and space */
 header {
     text-align: center;
-    padding: 15px 20px; /* Reduced vertical padding */
-    font-size: 1.6em; /* Slightly smaller font */
+    padding: 15px 20px; /* Adjusted padding */
+    font-size: 1.6em; /* Adjusted font size */
     font-weight: 700;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    color: #fff; /* Ensure header text is white */
 }
 
-/* Main app container - Increased dark overlay */
-.container {
+/* Main section - Layout Fix */
+main {
+    flex-grow: 1; /* Key: Takes all available vertical space */
     display: flex;
-    flex-direction: column;
-    height: var(--app-height, 100vh);
-    backdrop-filter: blur(8px);
-    background-color: rgba(0, 0, 0, 0.75); /* INCREASED opacity from 0.5 to 0.75 */
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
     overflow: hidden;
-    }
+}
 
 .chat-container {
     width: 100%;
     max-width: 800px;
-    height: 100%; /* Important: Fills 100% of the space given by 'main' */
+    height: 100%; /* Fills 100% of the space given by 'main' */
     background: rgba(20, 20, 30, 0.7);
     border-radius: 15px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.18);
     display: flex;
-    flex-direction: column; /* Stacks children (chat-box & input) vertically */
+    flex-direction: column;
     overflow: hidden;
 }
 
 /* FIX: Chat scroll + layout */
 .chat-box {
-    flex-grow: 1; /* THE key change: Expands to fill the space above the input area */
+    flex-grow: 1; /* Key: Expands to fill space above the input */
     padding: 20px;
-    overflow-y: auto; /* Enables vertical scroll for the messages */
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     scroll-behavior: smooth;
-    min-height: 0; /* Critical for flex-grow items to scroll correctly */
-}
-/* Optional: make scrollbar slim and neat */
-.chat-box::-webkit-scrollbar {
-  width: 6px;
+    min-height: 0; /* Critical for flex items with overflow */
 }
 
-.chat-box::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
+/* Scrollbar styling */
+.chat-box::-webkit-scrollbar {
+    width: 8px;
 }
-// --- REGISTER SERVICE WORKER FOR PWA ---
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js')
-      .then(() => console.log('Service Worker registered!'))
-      .catch((err) => console.log('Service Worker registration failed:', err));
-  });
-         }
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Message bubbles */
+.message {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    max-width: 90%;
+    line-height: 1.5;
+}
+
+.user-message {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+.user-message .message-bubble {
+    background: #007bff;
+    border-radius: 15px 15px 0 15px;
+    color: #fff; /* White text on blue background */
+}
+
+.ai-message .message-bubble {
+    background: #3a3a3c;
+    border-radius: 15px 15px 15px 0;
+    color: #fff; /* White text on dark gray background */
+}
+
+.message-bubble {
+    padding: 12px 18px;
+    word-wrap: break-word;
+    font-size: 1em;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.ai-avatar {
+    font-size: 1.5em;
+    margin-right: 12px;
+    padding-top: 5px;
+    color: #fff; /* Ensure avatar icon is white */
+}
+
+.thinking-indicator {
+    padding: 10px 20px;
+    text-align: center;
+    font-style: italic;
+    color: #ccc; /* Ensure indicator text is light */
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* Input area */
+.user-input-container {
+    display: flex;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 99;
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff; /* Ensure typed input text is white */
+    font-size: 1em;
+}
+
+#user-input::placeholder {
+    color: #eee; /* Ensure placeholder text is light */
+}
+
+#send-btn {
+    padding: 12px 25px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 20px;
+    background: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s ease;
+}
+
+#send-btn:hover {
+    background: #0056b3;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    font-size: 0.9em;
+    color: #fff; /* Ensure footer text is white */
+}
+
+footer a {
+    color: #33bbff; /* Bright blue for better visibility */
+    text-decoration: none;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1); /* Shadow for links */
+    }
