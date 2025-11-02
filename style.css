@@ -85,3 +85,11 @@ main {
   background: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
 }
+// --- REGISTER SERVICE WORKER FOR PWA ---
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(() => console.log('Service Worker registered!'))
+      .catch((err) => console.log('Service Worker registration failed:', err));
+  });
+         }
