@@ -2,7 +2,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    /* New: Default color set to very dark gray/black for contrast on bright backgrounds */
+    /* CONTRAST FIX: Default color set to very dark gray/black */
     color: #222; 
     background-color: #111;
 }
@@ -30,9 +30,9 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    height: var(--app-height, 100vh); /* Fixed height for viewport */
+    height: var(--app-height, 100vh); /* LAYOUT FIX: Fixed height for viewport */
     backdrop-filter: blur(8px);
-    /* Increased dark overlay for better contrast */
+    /* CONTRAST FIX: Increased dark overlay */
     background-color: rgba(0, 0, 0, 0.75); 
     overflow: hidden;
 }
@@ -40,27 +40,28 @@ body {
 /* Updated Header for consistency and space */
 header {
     text-align: center;
-    padding: 15px 20px; /* Adjusted padding */
-    font-size: 1.6em; /* Adjusted font size */
+    padding: 15px 20px;
+    font-size: 1.6em;
     font-weight: 700;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
-    color: #fff; /* Ensure header text is white */
+    color: #fff; /* CONTRAST FIX: Ensure header text is white */
 }
 
 /* Main section - Layout Fix */
 main {
-    flex-grow: 1; /* Key: Takes all available vertical space */
+    flex-grow: 1; /* LAYOUT FIX: Takes all available vertical space */
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* THIS WAS THE BUG: It is now 'flex-start' to keep the chat at the top */
+    align-items: flex-start; 
     padding: 10px;
-    overflow: hidden;
+    overflow: hidden; /* LAYOUT FIX: Prevents main from scrolling */
 }
 
 .chat-container {
     width: 100%;
     max-width: 800px;
-    height: 100%; /* Fills 100% of the space given by 'main' */
+    height: 100%; /* LAYOUT FIX: Fills 100% of the space given by 'main' */
     background: rgba(20, 20, 30, 0.7);
     border-radius: 15px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
@@ -72,14 +73,14 @@ main {
 
 /* FIX: Chat scroll + layout */
 .chat-box {
-    flex-grow: 1; /* Key: Expands to fill space above the input */
+    flex-grow: 1; /* LAYOUT FIX: Expands to fill space above the input */
     padding: 20px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     scroll-behavior: smooth;
-    min-height: 0; /* Critical for flex items with overflow */
+    min-height: 0; /* LAYOUT FIX: Critical for flex items with overflow */
 }
 
 /* Scrollbar styling */
@@ -111,13 +112,13 @@ main {
 .user-message .message-bubble {
     background: #007bff;
     border-radius: 15px 15px 0 15px;
-    color: #fff; /* White text on blue background */
+    color: #fff; /* CONTRAST FIX: White text on blue background */
 }
 
 .ai-message .message-bubble {
     background: #3a3a3c;
     border-radius: 15px 15px 15px 0;
-    color: #fff; /* White text on dark gray background */
+    color: #fff; /* CONTRAST FIX: White text on dark gray background */
 }
 
 .message-bubble {
@@ -132,14 +133,14 @@ main {
     font-size: 1.5em;
     margin-right: 12px;
     padding-top: 5px;
-    color: #fff; /* Ensure avatar icon is white */
+    color: #fff; /* CONTRAST FIX: Ensure avatar icon is white */
 }
 
 .thinking-indicator {
     padding: 10px 20px;
     text-align: center;
     font-style: italic;
-    color: #ccc; /* Ensure indicator text is light */
+    color: #ccc; /* CONTRAST FIX: Ensure indicator text is light */
     animation: pulse 1.5s infinite ease-in-out;
 }
 
@@ -165,12 +166,12 @@ main {
     border: none;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.2);
-    color: #fff; /* Ensure typed input text is white */
+    color: #fff; /* CONTRAST FIX: Ensure typed input text is white */
     font-size: 1em;
 }
 
 #user-input::placeholder {
-    color: #eee; /* Ensure placeholder text is light */
+    color: #eee; /* CONTRAST FIX: Ensure placeholder text is light */
 }
 
 #send-btn {
@@ -194,11 +195,11 @@ footer {
     padding: 15px;
     background: rgba(0, 0, 0, 0.8);
     font-size: 0.9em;
-    color: #fff; /* Ensure footer text is white */
+    color: #fff; /* CONTRAST FIX: Ensure footer text is white */
 }
 
 footer a {
-    color: #33bbff; /* Bright blue for better visibility */
+    color: #33bbff; /* CONTRAST FIX: Bright blue for better visibility */
     text-decoration: none;
     text-shadow: 0 0 5px rgba(0, 0, 0, 1); /* Shadow for links */
     }
