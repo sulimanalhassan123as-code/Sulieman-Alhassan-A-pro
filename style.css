@@ -1,20 +1,17 @@
-/* Use a CSS variable to hold the true height of the mobile viewport */
 :root {
+    /* CSS Variable to handle mobile keyboard viewport height */
     --app-height: 100vh;
 }
 
-/* Basic setup for the entire page */
-html, body {
+body {
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden; /* Prevent the whole page from scrolling */
-    font-family: 'Roboto', sans-serif;
-    background-color: #000;
+    color: #f0f0f0; 
+    background-color: #111;
+    overflow: hidden; /* Prevent scrolling of the whole page */
 }
 
-/* The animated background, unchanged */
 .background-animation {
     position: fixed;
     top: 0;
@@ -24,7 +21,7 @@ html, body {
     z-index: -1;
     background: linear-gradient(45deg, #ff007b, #7b00ff, #007bff, #00ff7b);
     background-size: 400% 400%;
-    animation: gradient-animation 15s ease infinite;
+    animation: gradient-animation 10s ease infinite;
 }
 
 @keyframes gradient-animation {
@@ -33,167 +30,155 @@ html, body {
     100% { background-position: 0% 50%; }
 }
 
-/* --- THE CORE MOBILE LAYOUT --- */
-/* This is the main container that holds everything */
+/* MOBILE LAYOUT FIX: Simplified main container */
 .container {
     display: flex;
     flex-direction: column;
-    /* This uses the JavaScript-calculated height to avoid the keyboard issue */
     height: var(--app-height);
-    width: 100%;
-    max-width: 800px; /* Max width for tablets/desktops */
-    margin: 0 auto; /* Center on larger screens */
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
-/* Header: Stays fixed at the top */
 header {
-    padding: 12px 20px;
     text-align: center;
-    color: #fff;
-    font-size: 1.2em;
+    padding: 15px 20px;
+    font-size: 1.4em;
     font-weight: 700;
-    flex-shrink: 0; /* Prevents the header from shrinking */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    color: #fff;
+    flex-shrink: 0; /* Prevents header from shrinking */
 }
 
-/* Chat Box: The most important part */
-.chat-box {
-    flex-grow: 1; /* This makes the chat box fill ALL available space */
-    overflow-y: auto; /* Enables scrolling ONLY within this box */
-    padding: 20px 15px;
+/* MOBILE LAYOUT FIX: Chat container is now the primary flex container */
+.chat-container {
+    flex-grow: 1; /* Takes up all available space */
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Adds space between messages */
-    scroll-behavior: smooth;
-    /* A small trick to ensure flexbox works correctly with scrolling */
-    min-height: 0;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+    overflow: hidden; /* Prevent container from overflowing */
 }
 
-/* Scrollbar styling for a cleaner look */
-.chat-box::-webkit-scrollbar { width: 5px; }
+.chat-box {
+    flex-grow: 1; /* Takes up space inside the container */
+    padding: 10px;
+    overflow-y: auto; /* This is where scrolling happens */
+    scroll-behavior: smooth;
+    background: rgba(20, 20, 30, 0.7);
+    border-radius: 15px 15px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: none;
+}
+
+/* Scrollbar styling */
+.chat-box::-webkit-scrollbar { width: 6px; }
 .chat-box::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.3); border-radius: 10px; }
 
 /* Message Styling */
 .message {
     display: flex;
-    align-items: flex-end; /* Aligns avatar with bottom of bubble */
-    max-width: 85%; /* Prevents messages from spanning the entire width */
-    gap: 10px;
+    margin-bottom: 15px;
+    max-width: 85%;
+}
+
+.user-message {
+    margin-left: auto;
+    flex-direction: row-reverse;
 }
 
 .message-bubble {
-    padding: 10px 15px;
+    padding: 12px 18px;
     border-radius: 18px;
     font-size: 1em;
     line-height: 1.4;
-    word-wrap: break-word; /* Breaks long words to prevent overflow */
+    word-wrap: break-word;
 }
 
-/* User's messages align to the right */
-.user-message {
-    align-self: flex-end; /* Pushes the whole message to the right */
-}
 .user-message .message-bubble {
     background: #007bff;
     color: #fff;
     border-radius: 18px 18px 5px 18px;
 }
 
-/* AI's messages align to the left */
 .ai-message {
-    align-self: flex-start;
+    margin-right: auto;
 }
+
 .ai-message .message-bubble {
-    background: #333;
+    background: #3a3a3c;
     color: #fff;
-    border-radius: 5px 18px 18px 18px;
+    border-radius: 18px 18px 18px 5px;
 }
 
 .ai-avatar {
     font-size: 1.5em;
+    margin-right: 12px;
 }
 
-/* Thinking Indicator: The three pulsing dots */
+/* Thinking Indicator */
 .thinking-indicator {
-    display: none; /* Hidden by default */
-    padding: 15px;
-    flex-shrink: 0; /* Prevents it from shrinking */
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    background: rgba(20, 20, 30, 0.7);
 }
-.typing-dots { display: flex; gap: 5px; }
+
 .typing-dots span {
-    width: 8px; height: 8px; background-color: #888;
-    border-radius: 50%; animation: typing-pulse 1.4s infinite both;
+    width: 8px; height: 8px; margin: 0 3px; background-color: #ccc;
+    border-radius: 50%; animation: typing-pulse 1.4s infinite ease-in-out both;
 }
 .typing-dots span:nth-child(1) { animation-delay: 0.0s; }
 .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
 .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes typing-pulse {
-    0%, 100% { opacity: 0.4; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1); }
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
 }
 
-/* Input Area: Stays fixed at the bottom */
+/* Input area */
 .user-input-container {
     display: flex;
-    align-items: center;
     padding: 15px;
-    flex-shrink: 0; /* Prevents the input bar from shrinking */
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    gap: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 0 0 15px 15px;
+    flex-shrink: 0; /* Prevents input area from shrinking */
 }
 
 #user-input {
-    flex-grow: 1;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 25px;
-    background: #2c2c2e;
-    color: #fff;
-    font-size: 1em;
+    flex-grow: 1; padding: 12px; border: none; border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2); color: #fff; font-size: 1em;
 }
-#user-input:focus { outline: none; }
-#user-input::placeholder { color: #888; }
+#user-input::placeholder { color: #ccc; }
 
 #send-btn {
-    border: none;
-    border-radius: 50%;
-    background: #007bff;
-    color: #fff;
-    font-size: 1.2em; /* Makes icon/text inside bigger */
-    cursor: pointer;
-    width: 45px;
-    height: 45px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease;
+    padding: 12px 25px; margin-left: 10px; border: none; border-radius: 20px;
+    background: #007bff; color: #fff; cursor: pointer; font-size: 1em;
+    transition: background 0.3s ease;
 }
 #send-btn:hover { background: #0056b3; }
 
-/* Footer: Optional, stays at the very bottom */
+/* Footer */
 footer {
-    display: none; /* Hiding footer by default to maximize chat space */
     text-align: center;
-    padding: 10px;
-    font-size: 0.8em;
-    color: #aaa;
-    flex-shrink: 0;
-}```
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    font-size: 0.9em;
+    color: #fff;
+    flex-shrink: 0; /* Prevents footer from shrinking */
+}
 
-### **Step 2: Verify Your `index.html`**
+footer a {
+    color: #33bbff;
+    text-decoration: none;
+}
 
-Your HTML needs a slight adjustment to get the best result with the new CSS. Make sure your "Send" button has a nice icon inside it, and remove the footer if you want maximum chat space.
-
-```html
-<!-- Inside the user-input-container in your index.html -->
-
-<div class="user-input-container">
-  <input type="text" id="user-input" placeholder="Ask NEVER HIDE AI PRO..." autocomplete="off">
-  
-  <!-- Use a nice send icon for the button -->
-  <button id="send-btn">➤</button>
-</div>
+.install-button {
+    display: none; margin-top: 10px; padding: 10px 20px;
+    background: #007bff; color: white; border: none;
+    border-radius: 8px; cursor: pointer; font-weight: bold;
+    }
