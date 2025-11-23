@@ -26,9 +26,9 @@ export default async function handler(req, res) {
     }
 
     // 4. --- CRITICAL FIX: Use the correct, available model name ---
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
-
-    // 5. Generate content
+    const modelName = process.env.GEMINI_MODEL || "gemini-2.5-pro";
+    const model = genAI.getGenerativeModel({ model: modelName });
+    // 5. Gelerate content
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
