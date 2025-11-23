@@ -1,17 +1,21 @@
+/* Use a CSS variable to hold the true height of the mobile viewport */
 :root {
-    /* CSS Variable to handle mobile keyboard viewport height */
     --app-height: 100vh;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
+/* Basic setup for the entire page */
+html, body {
     margin: 0;
     padding: 0;
-    color: #f0f0f0; 
-    background-color: #111;
-    overflow: hidden; /* Prevent scrolling of the whole page */
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Prevent the whole page from scrolling */
+    font-family: 'Roboto', sans-serif;
+    background-color: #000;
+    color: #fff; /* Set default text color to white */
 }
 
+/* The animated background */
 .background-animation {
     position: fixed;
     top: 0;
@@ -21,7 +25,7 @@ body {
     z-index: -1;
     background: linear-gradient(45deg, #ff007b, #7b00ff, #007bff, #00ff7b);
     background-size: 400% 400%;
-    animation: gradient-animation 10s ease infinite;
+    animation: gradient-animation 15s ease infinite;
 }
 
 @keyframes gradient-animation {
@@ -30,155 +34,107 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* MOBILE LAYOUT FIX: Simplified main container */
+/* --- THE NEW FULL-SCREEN LAYOUT --- */
+/* The main container now directly acts as our chat screen */
 .container {
     display: flex;
     flex-direction: column;
+    /* This uses the JavaScript-calculated height to avoid the keyboard issue */
     height: var(--app-height);
-    backdrop-filter: blur(8px);
-    background-color: rgba(0, 0, 0, 0.75);
-}
-
-header {
-    text-align: center;
-    padding: 15px 20px;
-    font-size: 1.4em;
-    font-weight: 700;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
-    color: #fff;
-    flex-shrink: 0; /* Prevents header from shrinking */
-}
-
-/* MOBILE LAYOUT FIX: Chat container is now the primary flex container */
-.chat-container {
-    flex-grow: 1; /* Takes up all available space */
-    display: flex;
-    flex-direction: column;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 10px;
-    box-sizing: border-box;
-    overflow: hidden; /* Prevent container from overflowing */
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    box-sizing: border-box; /* Ensures padding is included in the height */
 }
 
+/* HIDING THE HEADER AND FOOTER TO MAXIMIZE SPACE */
+header, footer {
+    display: none; /* This is the key change to make the chat full-screen */
+}
+
+/* The Chat Box now fills almost the entire screen */
 .chat-box {
-    flex-grow: 1; /* Takes up space inside the container */
-    padding: 10px;
-    overflow-y: auto; /* This is where scrolling happens */
+    flex-grow: 1; /* This makes the chat box fill ALL available vertical space */
+    overflow-y: auto; /* Enables scrolling ONLY within this box */
+    padding: 20px 15px 10px 15px; /* Added more top padding */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between messages */
     scroll-behavior: smooth;
-    background: rgba(20, 20, 30, 0.7);
-    border-radius: 15px 15px 0 0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: none;
+    min-height: 0; /* A flexbox trick for scrolling content */
 }
 
-/* Scrollbar styling */
-.chat-box::-webkit-scrollbar { width: 6px; }
+/* Clean scrollbar styling */
+.chat-box::-webkit-scrollbar { width: 5px; }
 .chat-box::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.3); border-radius: 10px; }
 
-/* Message Styling */
-.message {
-    display: flex;
-    margin-bottom: 15px;
-    max-width: 85%;
-}
+/* Message Styling (no major changes needed here) */
+.message { display: flex; align-items: flex-end; max-width: 85%; gap: 10px; }
+.message-bubble { padding: 10px 15px; border-radius: 18px; font-size: 1em; line-height: 1.4; word-wrap: break-word; }
+.user-message { align-self: flex-end; }
+.user-message .message-bubble { background: #007bff; color: #fff; border-radius: 18px 18px 5px 18px; }
+.ai-message { align-self: flex-start; }
+.ai-message .message-bubble { background: #333; color: #fff; border-radius: 5px 18px 18px 18px; }
+.ai-avatar { font-size: 1.5em; }
 
-.user-message {
-    margin-left: auto;
-    flex-direction: row-reverse;
-}
-
-.message-bubble {
-    padding: 12px 18px;
-    border-radius: 18px;
-    font-size: 1em;
-    line-height: 1.4;
-    word-wrap: break-word;
-}
-
-.user-message .message-bubble {
-    background: #007bff;
-    color: #fff;
-    border-radius: 18px 18px 5px 18px;
-}
-
-.ai-message {
-    margin-right: auto;
-}
-
-.ai-message .message-bubble {
-    background: #3a3a3c;
-    color: #fff;
-    border-radius: 18px 18px 18px 5px;
-}
-
-.ai-avatar {
-    font-size: 1.5em;
-    margin-right: 12px;
-}
-
-/* Thinking Indicator */
-.thinking-indicator {
-    padding: 15px 0;
-    display: flex;
-    justify-content: center;
-    background: rgba(20, 20, 30, 0.7);
-}
-
+/* The three pulsing dots for the thinking indicator */
+.thinking-indicator { display: none; padding: 15px; flex-shrink: 0; }
+.typing-dots { display: flex; justify-content: center; gap: 8px; }
 .typing-dots span {
-    width: 8px; height: 8px; margin: 0 3px; background-color: #ccc;
-    border-radius: 50%; animation: typing-pulse 1.4s infinite ease-in-out both;
+    width: 10px; height: 10px; background-color: #888;
+    border-radius: 50%; animation: typing-pulse 1.4s infinite both;
 }
 .typing-dots span:nth-child(1) { animation-delay: 0.0s; }
 .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
 .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes typing-pulse {
-    0%, 100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.2); }
+    0%, 100% { opacity: 0.4; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1); }
 }
 
-/* Input area */
+/* The input area at the bottom of the screen */
 .user-input-container {
     display: flex;
-    padding: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 0 0 15px 15px;
-    flex-shrink: 0; /* Prevents input area from shrinking */
+    align-items: center;
+    padding: 10px 15px 15px 15px; /* Adjusted padding */
+    flex-shrink: 0;
+    gap: 10px;
 }
 
 #user-input {
-    flex-grow: 1; padding: 12px; border: none; border-radius: 20px;
-    background: rgba(255, 255, 255, 0.2); color: #fff; font-size: 1em;
+    flex-grow: 1;
+    border: none;
+    padding: 14px 20px; /* Made the input field a bit taller */
+    border-radius: 25px;
+    background: #2c2c2e;
+    color: #fff;
+    font-size: 1em;
 }
-#user-input::placeholder { color: #ccc; }
+#user-input:focus { outline: none; }
+#user-input::placeholder { color: #888; }
 
 #send-btn {
-    padding: 12px 25px; margin-left: 10px; border: none; border-radius: 20px;
-    background: #007bff; color: #fff; cursor: pointer; font-size: 1em;
-    transition: background 0.3s ease;
-}
-#send-btn:hover { background: #0056b3; }
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.8);
-    font-size: 0.9em;
+    border: none;
+    border-radius: 50%;
+    background: #007bff;
     color: #fff;
-    flex-shrink: 0; /* Prevents footer from shrinking */
+    font-size: 1.2em;
+    cursor: pointer;
+    width: 50px; /* Slightly larger button */
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease, background-color 0.2s ease;
 }
 
-footer a {
-    color: #33bbff;
-    text-decoration: none;
-}
-
-.install-button {
-    display: none; margin-top: 10px; padding: 10px 20px;
-    background: #007bff; color: white; border: none;
-    border-radius: 8px; cursor: pointer; font-weight: bold;
-    }
+/* --- THIS IS THE TAP INDICATION YOU WANTED --- */
+/* When the button is being actively pressed, it will shrink slightly */
+#send-btn:active {
+    transform: scale(0.9);
+    background-color: #0056b3; /* Darker color on tap */
+         }
