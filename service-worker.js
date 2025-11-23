@@ -1,4 +1,3 @@
-// Add a version number. Change this number every time you deploy new code.
 const CACHE_VERSION = 'v2'; // Last time it was v1, now it's v2
 const CACHE_NAME = `never-hide-ai-cache-${CACHE_VERSION}`;
 
