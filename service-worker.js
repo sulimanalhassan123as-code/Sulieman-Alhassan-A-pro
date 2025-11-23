@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v2'; // Last time it was v1, now it's v2
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `never-hide-ai-cache-${CACHE_VERSION}`;
 
 const assetsToCache = [
@@ -20,9 +20,6 @@ self.addEventListener('install', (event) => {
   );
   self.skipWaiting(); // Force the new service worker to become active immediately
 });
-
-// Activate event: fires when the new service worker becomes active.
-// This is the perfect place to clean up old caches.
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
