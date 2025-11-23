@@ -12,7 +12,6 @@ const assetsToCache = [
   './icon-512.png'
 ];
 
-// Install event: fires when the service worker is first installed.
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
