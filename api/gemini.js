@@ -1,6 +1,3 @@
-// File: /api/gemini.js
-// This version is configured to use the powerful Gemini 1.5 Pro model.
-
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 async function handler(req, res) {
