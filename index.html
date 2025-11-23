@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
-  <!-- 🌐 PWA Setup -->
+  <!-- PWA Setup -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#007bff">
   <link rel="icon" sizes="192x192" href="icon-192.png">
@@ -24,27 +24,26 @@
       <h1>NEVER HIDE AI PRO 🌟</h1>
     </header>
 
-    <main>
-      <div class="chat-container">
-        <div id="chat-box" class="chat-box"></div>
+    <div class="chat-container">
+      <div id="chat-box" class="chat-box">
+        <!-- Chat messages will be added here by JavaScript -->
+      </div>
 
-        // Instead of this:
-// thinkingIndicator.innerHTML = "Never Hide AI is thinking of your request...";
-
-// Do this:
-thinkingIndicator.innerHTML = `
-    <div class="typing-dots">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>`;
-
-        <div class="user-input-container">
-          <input type="text" id="user-input" placeholder="Ask NEVER HIDE AI PRO anything..." autocomplete="off" autofocus>
-          <button id="send-btn">Send</button>
+      <!-- CRITICAL FIX: Added the missing "thinking-indicator" element -->
+      <div id="thinking-indicator" class="thinking-indicator" style="display: none;">
+        <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
       </div>
-    </main>
+
+      <!-- UPGRADE: Moved the input form inside the chat container for better layout -->
+      <div class="user-input-container">
+        <input type="text" id="user-input" placeholder="Ask NEVER HIDE AI PRO anything..." autocomplete="off" autofocus>
+        <button id="send-btn">Send</button>
+      </div>
+    </div>
 
     <footer>
       <p>Contact Support:
@@ -53,17 +52,7 @@ thinkingIndicator.innerHTML = `
         </a>
       </p>
 
-      <!-- Install App Button -->
-      <button id="install-btn" style="
-        display:none;
-        margin-top:10px;
-        padding:10px 20px;
-        background:#007bff;
-        color:white;
-        border:none;
-        border-radius:8px;
-        cursor:pointer;
-        font-weight:bold;">
+      <button id="install-btn" class="install-button">
         📱 Install NEVER HIDE AI PRO
       </button>
     </footer>
@@ -71,12 +60,11 @@ thinkingIndicator.innerHTML = `
 
   <script src="script.js"></script>
 
-  <!-- 🧠 Service Worker Registration + Install Prompt -->
+  <!-- PWA Service Worker & Install Prompt Script (No changes needed here) -->
   <script>
     let deferredPrompt;
     const installBtn = document.getElementById('install-btn');
 
-    // Register service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
@@ -85,14 +73,12 @@ thinkingIndicator.innerHTML = `
       });
     }
 
-    // Listen for install prompt
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.style.display = 'block'; // Show button
+      installBtn.style.display = 'block';
     });
 
-    // When user clicks Install button
     installBtn.addEventListener('click', async () => {
       installBtn.style.display = 'none';
       if (deferredPrompt) {
@@ -102,15 +88,6 @@ thinkingIndicator.innerHTML = `
         deferredPrompt = null;
       }
     });
-
-    // Optional: Show prompt automatically after 3 seconds
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-        }
-      }, 3000);
-    });
   </script>
 </body>
-</html>
+  </html>
