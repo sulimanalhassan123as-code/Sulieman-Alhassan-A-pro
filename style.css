@@ -1,199 +1,246 @@
-/* Use a CSS variable to hold the true height of the mobile viewport */
-:root {
-    --app-height: 100vh;
+CSS
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    /* CONTRAST FIX: Default color set to very dark gray/black */
+    color: #222; 
+    background-color: #111;
 }
 
-/* Basic setup for the entire page */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden; /* Prevent the whole page from scrolling */
-    font-family: 'Roboto', sans-serif;
-    background-color: #000;
-}
-
-/* The animated background, unchanged */
+/* Animated gradient background */
 .background-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(45deg, #ff007b, #7b00ff, #007bff, #00ff7b);
-    background-size: 400% 400%;
-    animation: gradient-animation 15s ease infinite;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(45deg, #ff007b, #7b00ff, #007bff, #00ff7b, #fffa00, #ff7b00);
+    background-size: 400% 400%;
+    animation: gradient-animation 4s ease infinite;
 }
 
 @keyframes gradient-animation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* --- THE CORE MOBILE LAYOUT --- */
-/* This is the main container that holds everything */
+/* Main app container - Layout Fix + Contrast Boost */
 .container {
-    display: flex;
-    flex-direction: column;
-    /* This uses the JavaScript-calculated height to avoid the keyboard issue */
-    height: var(--app-height);
-    width: 100%;
-    max-width: 800px; /* Max width for tablets/desktops */
-    margin: 0 auto; /* Center on larger screens */
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    height: var(--app-height, 100vh); /* LAYOUT FIX: Fixed height for viewport */
+    backdrop-filter: blur(8px);
+    /* CONTRAST FIX: Increased dark overlay */
+    background-color: rgba(0, 0, 0, 0.75); 
+    overflow: hidden;
 }
 
-/* Header: Stays fixed at the top */
+/* Updated Header for consistency and space */
 header {
-    padding: 12px 20px;
-    text-align: center;
-    color: #fff;
-    font-size: 1.2em;
-    font-weight: 700;
-    flex-shrink: 0; /* Prevents the header from shrinking */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    padding: 15px 20px;
+    font-size: 1.6em;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    color: #fff; /* CONTRAST FIX: Ensure header text is white */
 }
 
-/* Chat Box: The most important part */
+/* Main section - Layout Fix */
+main {
+    flex-grow: 1; /* LAYOUT FIX: Takes all available vertical space */
+    display: flex;
+    justify-content: center;
+    /* THIS WAS THE BUG: It is now 'flex-start' to keep the chat at the top */
+    align-items: flex-start; 
+    padding: 10px;
+    overflow: hidden; /* LAYOUT FIX: Prevents main from scrolling */
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 800px;
+    height: 100%; /* LAYOUT FIX: Fills 100% of the space given by 'main' */
+    background: rgba(20, 20, 30, 0.7);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* FIX: Chat scroll + layout */
 .chat-box {
-    flex-grow: 1; /* This makes the chat box fill ALL available space */
-    overflow-y: auto; /* Enables scrolling ONLY within this box */
-    padding: 20px 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Adds space between messages */
-    scroll-behavior: smooth;
-    /* A small trick to ensure flexbox works correctly with scrolling */
-    min-height: 0;
+    flex-grow: 1; /* LAYOUT FIX: Expands to fill space above the input */
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    scroll-behavior: smooth;
+    min-height: 0; /* LAYOUT FIX: Critical for flex items with overflow */
 }
 
-/* Scrollbar styling for a cleaner look */
-.chat-box::-webkit-scrollbar { width: 5px; }
-.chat-box::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.3); border-radius: 10px; }
-
-/* Message Styling */
-.message {
-    display: flex;
-    align-items: flex-end; /* Aligns avatar with bottom of bubble */
-    max-width: 85%; /* Prevents messages from spanning the entire width */
-    gap: 10px;
+/* Scrollbar styling */
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .message-bubble {
-    padding: 10px 15px;
-    border-radius: 18px;
-    font-size: 1em;
-    line-height: 1.4;
-    word-wrap: break-word; /* Breaks long words to prevent overflow */
+    padding: 12px 18px;
+    word-wrap: break-word;
+    font-size: 1.1em; /* Changed from 1em to make text bigger */
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
-/* User's messages align to the right */
 .user-message {
-    align-self: flex-end; /* Pushes the whole message to the right */
-}
-.user-message .message-bubble {
-    background: #007bff;
-    color: #fff;
-    border-radius: 18px 18px 5px 18px;
+    margin-left: auto;
+    flex-direction: row-reverse;
 }
 
-/* AI's messages align to the left */
-.ai-message {
-    align-self: flex-start;
+.user-message .message-bubble {
+    background: #007bff;
+    border-radius: 15px 15px 0 15px;
+    color: #fff; /* CONTRAST FIX: White text on blue background */
 }
+
 .ai-message .message-bubble {
-    background: #333;
-    color: #fff;
-    border-radius: 5px 18px 18px 18px;
+    background: #3a3a3c;
+    border-radius: 15px 15px 15px 0;
+    color: #fff; /* CONTRAST FIX: White text on dark gray background */
+}
+
+.message-bubble {
+    padding: 12px 18px;
+    word-wrap: break-word;
+    font-size: 1em;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 .ai-avatar {
-    font-size: 1.5em;
+    font-size: 1.5em;
+    margin-right: 12px;
+    padding-top: 5px;
+    color: #fff; /* CONTRAST FIX: Ensure avatar icon is white */
 }
 
-/* Thinking Indicator: The three pulsing dots */
 .thinking-indicator {
-    display: none; /* Hidden by default */
-    padding: 15px;
-    flex-shrink: 0; /* Prevents it from shrinking */
-}
-.typing-dots { display: flex; gap: 5px; }
-.typing-dots span {
-    width: 8px; height: 8px; background-color: #888;
-    border-radius: 50%; animation: typing-pulse 1.4s infinite both;
-}
-.typing-dots span:nth-child(1) { animation-delay: 0.0s; }
-.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes typing-pulse {
-    0%, 100% { opacity: 0.4; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1); }
+    padding: 10px 20px;
+    text-align: center;
+    font-style: italic;
+    color: #ccc; /* CONTRAST FIX: Ensure indicator text is light */
+    animation: pulse 1.5s infinite ease-in-out;
 }
 
-/* Input Area: Stays fixed at the bottom */
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* Input area */
 .user-input-container {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    flex-shrink: 0; /* Prevents the input bar from shrinking */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    gap: 10px;
+    display: flex;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 99;
 }
 
 #user-input {
-    flex-grow: 1;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 25px;
-    background: #2c2c2e;
-    color: #fff;
-    font-size: 1em;
+    flex-grow: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff; /* Ensure typed input text is white */
+    font-size: 1.1em; /* Changed from 1em to match message bubbles */
 }
-#user-input:focus { outline: none; }
-#user-input::placeholder { color: #888; }
+
+#user-input::placeholder {
+    color: #eee; /* CONTRAST FIX: Ensure placeholder text is light */
+}
 
 #send-btn {
-    border: none;
-    border-radius: 50%;
-    background: #007bff;
-    color: #fff;
-    font-size: 1.2em; /* Makes icon/text inside bigger */
-    cursor: pointer;
-    width: 45px;
-    height: 45px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease;
+    padding: 12px 25px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 20px;
+    background: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s ease;
 }
-#send-btn:hover { background: #0056b3; }
 
-/* Footer: Optional, stays at the very bottom */
+#send-btn:hover {
+    background: #0056b3;
+}
+
 footer {
-    display: none; /* Hiding footer by default to maximize chat space */
-    text-align: center;
-    padding: 10px;
-    font-size: 0.8em;
-    color: #aaa;
-    flex-shrink: 0;
-}```
+    text-align: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    font-size: 0.9em;
+    color: #fff; /* CONTRAST FIX: Ensure footer text is white */
+}
 
-### **Step 2: Verify Your `index.html`**
+footer a {
+    color: #33bbff; /* CONTRAST FIX: Bright blue for better visibility */
+    text-decoration: none;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1); /* Shadow for links */
+    }
+/* New: Animated typing indicator dots */
+.typing-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+}
 
-Your HTML needs a slight adjustment to get the best result with the new CSS. Make sure your "Send" button has a nice icon inside it, and remove the footer if you want maximum chat space.
+.typing-dots span {
+    width: 8px;
+    height: 8px;
+    margin: 0 3px;
+    background-color: #ccc;
+    border-radius: 50%;
+    animation: typing-pulse 1.4s infinite ease-in-out both;
+}
 
-```html
-<!-- Inside the user-input-container in your index.html -->
+.typing-dots span:nth-child(1) {
+    animation-delay: 0.0s;
+}
+.typing-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.typing-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
 
-<div class="user-input-container">
-  <input type="text" id="user-input" placeholder="Ask NEVER HIDE AI PRO..." autocomplete="off">
-  
-  <!-- Use a nice send icon for the button -->
-  <button id="send-btn">➤</button>
-</div>
+@keyframes typing-pulse {
+    0% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0.2;
+        transform: scale(1);
+    background-positionund-position
