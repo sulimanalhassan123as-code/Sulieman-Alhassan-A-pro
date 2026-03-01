@@ -93,7 +93,7 @@
     <p>POWERED BY NEVER HIDE TECH | SECURE & PRIVATE</p>
   </footer>
 
-  <script> const myWhatsAppNumber = "YOUR_PHONE_NUMBER_HERE"; </script>
+  <script> const myWhatsAppNumber = "233248503631"; </script>
   <script src="script.js"></script>
 </body>
 </html>
