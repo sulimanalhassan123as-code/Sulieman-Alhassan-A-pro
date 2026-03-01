@@ -1,8 +1,0 @@
-{
-  "name": "never-hide-ai-pro-server",
-  "version": "1.0.0",
-  "description": "Backend for NEVER HIDE AI PRO",
-  "dependencies": {
-    "@google/generative-ai": "^0.2.1"
-  }
-}
