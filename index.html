@@ -1,99 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Never Hide | Premium Tech Solutions</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Never Hide Tech Room</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div id="splash-screen">
-    <div class="splash-content">
-      <span class="material-icons-round splash-icon">security</span>
-      <h1 class="glitch" data-text="NEVER HIDE">NEVER HIDE</h1>
-      <p class="typing-text">Welcome to the Never Hide Private Page.</p>
-      <p class="fade-text">Where every tech issue is solved.</p>
-    </div>
-  </div>
-
-  <header>
-    <div class="logo">
-      <span class="material-icons-round">terminal</span>
-      <span>NEVER HIDE <span class="highlight">TECH</span></span>
-    </div>
-    <div class="status-badge">
-      <span class="pulse-dot"></span> Available for Projects
-    </div>
-  </header>
-
-  <section class="hero">
-    <h1>Elite Tech Solutions & <br><span class="highlight">Development Hub</span></h1>
-    <p>From deep-level Cybersecurity to breathtaking Web Applications. Select a sector below to explore our services or enroll in our exclusive mastery courses.</p>
-  </section>
-
-  <main class="services-grid">
-    <div class="service-card" data-service="cyber">
-      <div class="card-icon"><span class="material-icons-round">gpp_good</span></div>
-      <h2>Cyber Security</h2>
-      <p>Protect your assets. Ethical hacking, penetration testing, and security audits.</p>
-      <button class="view-btn">Explore <span class="material-icons-round">arrow_forward</span></button>
+    <div id="splash-screen">
+        <h1>Never Hide Tech Room</h1>
+        <p>Here is all where your tech issue is solved.</p>
     </div>
 
-    <div class="service-card" data-service="web">
-      <div class="card-icon"><span class="material-icons-round">language</span></div>
-      <h2>Web Development</h2>
-      <p>High-converting business sites, e-commerce, and custom web applications.</p>
-      <button class="view-btn">Explore <span class="material-icons-round">arrow_forward</span></button>
+    <header>
+        <h2>Welcome to <span>Never Hide Tech Room</span></h2>
+        <p>Select a category below to book an appointment with our experts.</p>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openCategory('web-dev')">Website Development</button>
+        <button class="tab-btn" onclick="openCategory('cyber-sec')">Cyber Security</button>
+        <button class="tab-btn" onclick="openCategory('sys-prog')">System Programming</button>
+        <button class="tab-btn" onclick="openCategory('tech-issue')">Tech Issues Solving</button>
     </div>
 
-    <div class="service-card" data-service="app">
-      <div class="card-icon"><span class="material-icons-round">smartphone</span></div>
-      <h2>App Programming</h2>
-      <p>Beautiful, lightning-fast native applications for Android and iOS.</p>
-      <button class="view-btn">Explore <span class="material-icons-round">arrow_forward</span></button>
-    </div>
+    <main>
+        <section id="web-dev" class="category-section active">
+            <div class="card">
+                <h3>Custom Business Websites</h3>
+                <p>We build premium, fast-loading websites tailored to your business needs to help you attract more clients.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20a%20Custom%20Business%20Website." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>E-Commerce Platforms</h3>
+                <p>Start selling online. We develop secure and easy-to-manage online stores with integrated payment systems.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20an%20E-Commerce%20Platform." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Real-Time Web Apps</h3>
+                <p>Looking for live chat apps, dashboards, or multi-user platforms? We program scalable real-time solutions using WebSockets.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20a%20Real-Time%20Web%20App." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Portfolio & Resume Sites</h3>
+                <p>Stand out to employers and clients with a sleek, modern digital portfolio to showcase your best work.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20a%20Portfolio%20Site." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>UI/UX Redesign</h3>
+                <p>Have an old website? We can modernize the design and user experience to match current premium standards.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20a%20UI/UX%20Redesign." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>API Integration</h3>
+                <p>We connect your website to external services, including AI models, payment gateways, and third-party databases.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20API%20Integration." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Hosting & Deployment</h3>
+                <p>We handle the heavy lifting of deploying your projects to platforms like Vercel, Render, or custom servers.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Hosting%20and%20Deployment." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Website Maintenance</h3>
+                <p>Ongoing support to keep your code updated, fix bugs, and ensure your site runs smoothly 24/7.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Website%20Maintenance." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+        </section>
 
-    <div class="service-card" data-service="system">
-      <div class="card-icon"><span class="material-icons-round">memory</span></div>
-      <h2>System Programming</h2>
-      <p>Low-level architecture, automation scripts, and server-side logic.</p>
-      <button class="view-btn">Explore <span class="material-icons-round">arrow_forward</span></button>
-    </div>
+        <section id="cyber-sec" class="category-section">
+            <div class="card">
+                <h3>Vulnerability Assessment</h3>
+                <p>We scan and test your systems, websites, and networks to find weak spots before hackers can exploit them.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Vulnerability%20Assessment." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Account & Data Recovery</h3>
+                <p>Lost access to crucial social accounts or suffered data loss? We assist with secure recovery procedures.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Account%20Recovery." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Secure VPN Setup</h3>
+                <p>We configure private, encrypted networks like WireGuard to ensure your team's browsing remains hidden and secure.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Secure%20VPN%20Setup." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Malware Removal</h3>
+                <p>Deep system cleaning to remove viruses, spyware, and malicious code from your servers or personal computers.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Malware%20Removal." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Web Application Firewall (WAF)</h3>
+                <p>Implementation of robust firewalls to protect your web applications from DDoS attacks and SQL injections.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20WAF%20Setup." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Security Auditing</h3>
+                <p>Comprehensive review of your codebase and infrastructure to ensure compliance with modern security standards.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Security%20Auditing." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Phishing Protection</h3>
+                <p>Training and system implementations to detect and block deceptive emails and fake websites targeting your business.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Phishing%20Protection." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Encryption Solutions</h3>
+                <p>Protecting sensitive data at rest and in transit using state-of-the-art cryptographic protocols.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Encryption%20Solutions." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+        </section>
 
-    <div class="service-card" data-service="tech">
-      <div class="card-icon"><span class="material-icons-round">build_circle</span></div>
-      <h2>Any Tech Issues</h2>
-      <p>Hardware optimization, bug fixing, data recovery, and general consulting.</p>
-      <button class="view-btn">Explore <span class="material-icons-round">arrow_forward</span></button>
-    </div>
-  </main>
+        <section id="sys-prog" class="category-section">
+            <div class="card">
+                <h3>WhatsApp Bot Development</h3>
+                <p>We build intelligent, automated WhatsApp bots for customer service, group management, or custom commands.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20WhatsApp%20Bot%20Development." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Custom Automation Scripts</h3>
+                <p>Stop doing repetitive tasks. We write scripts to automate your workflow, data entry, and file management.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Automation%20Scripts." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Backend API Architecture</h3>
+                <p>Developing robust, secure, and fast backend APIs to power your mobile apps and web platforms.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Backend%20API%20Architecture." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Node.js Applications</h3>
+                <p>Full-scale server-side application development using Node.js for high performance and scalability.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Node.js%20Development." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Database Management</h3>
+                <p>Structuring, optimizing, and securing your data using modern databases like MongoDB, Firebase, or PostgreSQL.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Database%20Management." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Task Scheduling (Cron Jobs)</h3>
+                <p>Setting up automated server tasks that run precisely on schedule without manual intervention.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Task%20Scheduling." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>System Integration</h3>
+                <p>Making different software programs and APIs talk to each other seamlessly to unify your business logic.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20System%20Integration." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>CLI Tools Development</h3>
+                <p>Creating custom Command Line Interface tools for developers and power users to speed up operations.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20CLI%20Tools." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+        </section>
 
-  <div id="service-modal" class="modal-overlay">
-    <div class="modal-glass">
-      <button id="close-modal" class="close-btn"><span class="material-icons-round">close</span></button>
-      
-      <div class="modal-header">
-        <span id="modal-icon" class="material-icons-round huge-icon"></span>
-        <h2 id="modal-title">Service Name</h2>
-        <p id="modal-desc">Description goes here.</p>
-      </div>
+        <section id="tech-issue" class="category-section">
+            <div class="card">
+                <h3>OS Troubleshooting</h3>
+                <p>Windows, Linux, or macOS acting up? We diagnose and fix deep operating system errors quickly.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20OS%20Troubleshooting." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Server Configuration Repair</h3>
+                <p>Having trouble with Linux servers, Termux, or cloud environments? We restore configurations and uptime.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Server%20Repair." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Software & Code Debugging</h3>
+                <p>Stuck on an error in your code? We review HTML, CSS, JS, and backend scripts to find and fix the bugs.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Code%20Debugging." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Deployment Error Fixing</h3>
+                <p>Web app failing to build on Vercel or Render? We troubleshoot build logs and environment variable issues.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Deployment%20Fixing." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>API Connection Issues</h3>
+                <p>Having trouble fetching data from external APIs? We resolve CORS errors, authentication failures, and timeouts.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20API%20Connection%20Issues." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>GitHub & Version Control</h3>
+                <p>Need help recovering lost commits, resolving merge conflicts, or setting up repositories correctly?</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20GitHub%20Help." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>Hardware Diagnostics</h3>
+                <p>Identifying failing physical components like RAM, hard drives, or network cards on local machines.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20Hardware%20Diagnostics." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+            <div class="card">
+                <h3>General Tech Consultation</h3>
+                <p>Not sure what's wrong? Book a general session, and we will advise you on the best path forward for your tech.</p>
+                <a href="https://wa.me/233248503631?text=Hello%20Never%20Hide%20Tech%20Room!%20I%20want%20to%20book%20an%20appointment%20for%20General%20Consultation." target="_blank" class="whatsapp-btn">Book Appointment</a>
+            </div>
+        </section>
+    </main>
 
-      <div class="modal-body">
-        <h3>Available Services / Courses</h3>
-        <ul id="modal-list" class="sub-service-list">
-          </ul>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>POWERED BY NEVER HIDE TECH | SECURE & PRIVATE</p>
-  </footer>
-
-  <script> const myWhatsAppNumber = "233248503631"; </script>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
-</html>
+                  </html>
